@@ -30,6 +30,8 @@
 ;; ---------------------------------------------------------------------
 ;;; Code:
 
+(require 'nano-faces)
+
 ;; When we set a face, we take care of removing any previous settings
 (defun set-face (face style)
   "Reset FACE and make it inherit STYLE."
@@ -49,8 +51,8 @@
 
   ;; XXX the following seems to be a no-op, should it be removed?
   (set-face-attribute 'default nil
-                       :foreground (face-foreground 'default)
-                       :background (face-background 'default))
+                      :foreground (face-foreground 'default)
+                      :background (face-background 'default))
 
   (if (display-graphic-p)
       (set-face-attribute 'bold nil :weight 'regular)
@@ -68,14 +70,14 @@
   (set-face 'cursor                                  'nano-face-default)
 
   (set-face-attribute 'cursor nil
-                       :background (face-foreground 'nano-face-default))
+                      :background (face-foreground 'nano-face-default))
   (set-face-attribute 'window-divider nil
-                       :foreground (face-background 'nano-face-default))
+                      :foreground (face-background 'nano-face-default))
   (set-face-attribute 'window-divider-first-pixel nil
-                       :foreground nano-color-highlight)
+                      :foreground nano-color-background)
   ;;                  :foreground (face-background 'nano-face-subtle))
   (set-face-attribute 'window-divider-last-pixel nil
-                       :foreground nano-color-highlight)
+                      :foreground nano-color-background)
   ;;                  :foreground (face-background 'nano-face-subtle)))
 
   ;; Semantic
@@ -91,8 +93,8 @@
   (set-face 'link                                    'nano-face-salient)
   (set-face 'fringe                                    'nano-face-faded)
   (set-face-attribute 'fringe nil
-                       :foreground (face-background 'nano-face-subtle)
-                       :background (face-background 'default))
+                      :foreground (face-background 'nano-face-subtle)
+                      :background (face-background 'default))
   (set-face 'isearch                                  'nano-face-strong)
   (set-face 'isearch-fail                              'nano-face-faded)
   (set-face 'lazy-highlight                           'nano-face-subtle)
@@ -101,10 +103,8 @@
   (set-face 'show-paren-mismatch                           'face-normal)
   (set-face-attribute 'tooltip nil                         :height 0.85)
   (set-face 'secondary-selection                      'nano-face-subtle)
-  (set-face 'completions-common-part                  'nano-face-faded)
-  (set-face 'completions-first-difference             'nano-face-popout))
-
-
+  (set-face 'completions-common-part                   'nano-face-faded)
+  (set-face 'completions-first-difference            'nano-face-default))
 (defun nano-theme--font-lock ()
   "Derive font-lock faces from nano-faces."
   (set-face 'font-lock-comment-face                    'nano-face-faded)
@@ -122,20 +122,20 @@
 (defun nano-theme--mode-line ()
   "Derive mode-line and header-line faces from nano-faces."
   (set-face-attribute 'mode-line nil
-                       :height 0.75
-                       :foreground (face-foreground 'nano-face-faded)
-                       :background (face-background 'nano-face-default)
-                       :overline nil
-                       :underline nil
-                       :box nil)
+                      :height 0.1
+                      :foreground (face-background 'nano-face-default)
+                      :background (face-background 'nano-face-default)
+                      :overline (face-background 'nano-face-subtle)
+                      :underline nil
+                      :box nil)
   (set-face-attribute 'mode-line-inactive nil
-                       :height 0.75
-                       :foreground (face-foreground 'nano-face-faded)
-                       :background (face-background 'nano-face-default)
-                       :overline nil
-                       :underline nil
-                       :inherit nil
-                       :box nil)
+                      :height 0.1
+                      :foreground (face-background 'nano-face-default)
+                      :background (face-background 'nano-face-default)
+                      :overline (face-background 'nano-face-subtle)
+                      :underline nil
+                      :inherit nil
+                      :box nil)
   ;;(when (display-graphic-p)
   (set-face-attribute 'header-line nil
                        :weight 'light
@@ -185,6 +185,7 @@
                          :background nano-color-highlight)))
 
 
+
 (defun nano-theme--buttons ()
   "Derive button faces from nano faces."
   ;; Buttons
@@ -223,6 +224,18 @@
     (set-face 'info-title-2                           'nano-face-strong)
     (set-face 'info-title-3                           'nano-face-strong)
     (set-face 'info-title-4                           'nano-face-strong)))
+
+
+(defun nano-theme--speedbar ()
+  "Derive speedbar faces from nano faces "
+  (with-eval-after-load 'speedbar
+    (set-face 'speedbar-button-face                    'nano-face-faded)
+    (set-face 'speedbar-directory-face                'nano-face-strong)
+    (set-face 'speedbar-file-face                    'nano-face-default)
+    (set-face 'speedbar-highlight-face             'nano-face-highlight)
+    (set-face 'speedbar-selected-face                 'nano-face-subtle)
+    (set-face 'speedbar-separator-face                 'nano-face-faded)
+    (set-face 'speedbar-tag-face                       'nano-face-faded)))
 
 
 (defun nano-theme--bookmark ()
@@ -418,9 +431,15 @@ function is a convenience wrapper used by `describe-package-1'."
   "Derive org faces from nano faces."
   (with-eval-after-load 'org
     (set-face 'org-archived                            'nano-face-faded)
-    (set-face 'org-block                               'nano-face-faded)
+
+    (set-face 'org-block                                       'hl-line)
     (set-face 'org-block-begin-line                    'nano-face-faded)
     (set-face 'org-block-end-line                      'nano-face-faded)
+    (unless (version< emacs-version "27.0")
+      (set-face-attribute 'org-block nil                      :extend t)
+      (set-face-attribute 'org-block-begin-line nil           :extend t)
+      (set-face-attribute 'org-block-end-line nil             :extend t))
+
     (set-face 'org-checkbox                            'nano-face-faded)
     (set-face 'org-checkbox-statistics-done            'nano-face-faded)
     (set-face 'org-checkbox-statistics-todo            'nano-face-faded)
@@ -445,12 +464,12 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'org-latex-and-related                   'nano-face-faded)
     (set-face 'org-level-1                            'nano-face-strong)
     (set-face 'org-level-2                            'nano-face-strong)
-    (set-face 'org-level-3                           'nano-face-salient)
-    (set-face 'org-level-4                           'nano-face-default)
-    (set-face 'org-level-5                           'nano-face-default)
-    (set-face 'org-level-6                           'nano-face-default)
-    (set-face 'org-level-7                           'nano-face-default)
-    (set-face 'org-level-8                           'nano-face-default)
+    (set-face 'org-level-3                            'nano-face-strong)
+    (set-face 'org-level-4                            'nano-face-strong)
+    (set-face 'org-level-5                            'nano-face-strong)
+    (set-face 'org-level-6                            'nano-face-strong)
+    (set-face 'org-level-7                            'nano-face-strong)
+    (set-face 'org-level-8                            'nano-face-strong)
     (set-face 'org-link                              'nano-face-salient)
     (set-face 'org-list-dt                             'nano-face-faded)
     (set-face 'org-macro                               'nano-face-faded)
@@ -472,7 +491,7 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'org-time-grid                           'nano-face-faded)
     (set-face 'org-todo                              'nano-face-salient)
     (set-face 'org-upcoming-deadline                   'nano-face-faded)
-    (set-face 'org-verbatim                            'nano-face-faded)
+    (set-face 'org-verbatim                           'nano-face-popout)
     (set-face 'org-verse                               'nano-face-faded)
     (set-face 'org-warning                            'nano-face-popout)))
 
@@ -537,6 +556,16 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'elfeed-search-unread-count-face        'nano-face-strong)
     (set-face 'elfeed-search-unread-title-face        'nano-face-strong)))
 
+(defun nano-theme--deft ()
+  "Derive deft faces from nano faces."
+  (with-eval-after-load 'deft
+    (set-face 'deft-filter-string-error-face         'nano-face-popout)
+    (set-face 'deft-filter-string-face              'nano-face-default)
+    (set-face 'deft-header-face                     'nano-face-salient)
+    (set-face 'deft-separator-face                    'nano-face-faded)
+    (set-face 'deft-summary-face                      'nano-face-faded)
+    (set-face 'deft-time-face                       'nano-face-salient)
+    (set-face 'deft-title-face                       'nano-face-strong)))
 
 (defun nano-theme--rst ()
   "Derive rst faces from nano faces."
@@ -619,13 +648,13 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'ivy-grep-line-number                    'nano-face-faded)
     (set-face 'ivy-highlight-face                     'nano-face-strong)
     (set-face 'ivy-match-required-face                 'nano-face-faded)
-    (set-face 'ivy-minibuffer-match-face-1           'nano-face-salient)
-    (set-face 'ivy-minibuffer-match-face-2           'nano-face-salient)
-    (set-face 'ivy-minibuffer-match-face-3           'nano-face-salient)
-    (set-face 'ivy-minibuffer-match-face-4           'nano-face-salient)
+    (set-face 'ivy-minibuffer-match-face-1             'nano-face-faded)
+    (set-face 'ivy-minibuffer-match-face-2             'nano-face-faded)
+    (set-face 'ivy-minibuffer-match-face-3             'nano-face-faded)
+    (set-face 'ivy-minibuffer-match-face-4             'nano-face-faded)
     (set-face 'ivy-minibuffer-match-highlight         'nano-face-strong)
-    (set-face 'ivy-modified-buffer                     'nano-face-faded)
-    (set-face 'ivy-modified-outside-buffer             'nano-face-faded)
+    (set-face 'ivy-modified-buffer                    'nano-face-popout)
+    (set-face 'ivy-modified-outside-buffer            'nano-face-strong)
     (set-face 'ivy-org                                 'nano-face-faded)
     (set-face 'ivy-prompt-match                        'nano-face-faded)
     (set-face 'ivy-remote                            'nano-face-default)
@@ -634,6 +663,24 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'ivy-virtual                             'nano-face-faded)
     (set-face 'ivy-yanked-word                         'nano-face-faded)))
 
+(defun nano-theme--helm ()
+  "Derive helm faces from nano faces."
+  (with-eval-after-load 'helm
+    (set-face 'helm-selection                '(nano-face-strong nano-face-subtle))
+    (set-face 'helm-match                                       'nano-face-strong)
+    (set-face 'helm-source-header                              'nano-face-salient)
+    (set-face 'helm-swoop-target-line-face   '(nano-face-strong nano-face-subtle))
+    (set-face 'helm-visible-mark                                'nano-face-strong)
+    (set-face 'helm-moccur-buffer                               'nano-face-strong)
+    (set-face 'helm-ff-file                                      'nano-face-faded)
+    (set-face 'helm-ff-prefix                                   'nano-face-strong)
+    (set-face 'helm-ff-dotted-directory                          'nano-face-faded)
+    (set-face 'helm-ff-directory                                'nano-face-strong)
+    (set-face 'helm-ff-executable                               'nano-face-popout)
+    (set-face 'helm-grep-match                                  'nano-face-strong)
+    (set-face 'helm-grep-file                                    'nano-face-faded)
+    (set-face 'helm-grep-lineno                                  'nano-face-faded)
+    (set-face 'helm-grep-finish                                'nano-face-default)))
 
 (defun nano-theme ()
   "Derive many, many faces from the core nano faces."
@@ -644,6 +691,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (nano-theme--buttons)
   (nano-theme--info)
   (nano-theme--bookmark)
+  (nano-theme--speedbar)
   (nano-theme--message)
   (nano-theme--outline)
   (nano-theme--customize)
@@ -657,8 +705,11 @@ function is a convenience wrapper used by `describe-package-1'."
   (nano-theme--org)
   (nano-theme--mu4e)
   (nano-theme--elfeed)
+  (nano-theme--deft)
   (nano-theme--rst)
   (nano-theme--markdown)
   (nano-theme--ivy)
+  (nano-theme--helm)
   (nano-theme--hl-line))
+
 (provide 'nano-theme)

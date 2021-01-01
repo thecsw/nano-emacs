@@ -1,5 +1,4 @@
-
-## GNU Emacs / N Λ N O 
+## GNU Emacs / N Λ N O
 
 **GNU Emacs / N Λ N O** is a set of configuration files for GNU Emacs
 such as to provide a nice and consistent look and feel as shown below.
@@ -39,63 +38,104 @@ $ emacs -q -l nano.el
 
 ### Installation
 
-If you like the result, you can merge the content of
-[nano.el](nano.el) into your emacs configuration file. To do so,
+If you like the result, you can merge the content of [nano.el](nano.el) into
+your emacs configuration file. To do so,
 you'll need to modify the `load-path` to include the nano emacs
 repository and then call for the different modules. The only mandatory
-module is the theme that defines 6 faces that are used in other
+module is `nano-faces` that defines 6 faces that are used in other
 modules.
-
-
 
 ### Modules
 
+- **[nano.el](./nano.el)** (optional)
 
-<img align="right" alt="mandatory" src="https://img.shields.io/badge/-mandatory-red?style=flat-square">
+  > This module is mostly used to test nano emacs locally. Its content
+    is supposed to be merged into an existing emacs configuration. See
+    [Quick test](#Quick-test) section above.
 
-- **[nano-theme-light.el](./nano-theme-light.el)** or
-  **[nano-theme-dark.el](./nano-theme-dark.el)** Theses modules define a
-  light and dark themes respectively through the defnition of the different
-  faces that will be used by other modules.  It is thus mandatory (one of
-  dark or light version).
+#### Mandatory
 
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
+* **[nano-base-colors.el](./nano-base-colors.el)**
 
-- **[nano.el](./nano.el)** This module is only used to test nano emacs
-  locally. Its content is supposed to be merged into an existing emacs
-  configuration.
+  > This module defines the fundamental colors of nano theme.
+    If your Emacs has a theme or color-scheme, make sure its loaded
+    before you load nano-faces so that its colors are used by nano.
 
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
+* **[nano-faces.el](./nano-faces.el)**
 
-- **[nano-help.el](./nano-help.el)** This module provides a function to
-  display a small message in the echo area.
-
-
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
-
-- **[nano-modeline.el](./nano-modeline.el)** This module define a
-  header line that is mode dependent and take care of hiding the
-  modeline when necessary.
+  > This module defines the fundamental faces of nano theme.
+    If your Emacs has a theme or color-scheme, make sure its loaded
+    before you load nano-faces so that its colors are used by nano.
 
 
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
+#### Optional
 
-- **[nano-layout.el](./nano-layout.el)** This module define the overall layout of an emacs frame, defining default font, fringes, margins, etc.
-	
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
+- **[nano-theme-light.el](./nano-theme-light.el)** &
+  **[nano-theme-dark.el](./nano-theme-dark.el)**
 
-- **[nano-splash.el](./nano-splash.el)** This module provides a splash
-  screen when emacs is started.
+  > Theses modules define light and dark themes respectively by
+    overriding the base colors. If your Emacs is not themed, you are
+    encouraged to try one of these.
 
+- **[nano-theme.el](./nano-theme.el)**
 
-<img align="right" alt="optional" src="https://img.shields.io/badge/-optional-blue?style=flat-square">
-
-- **[nano-colors.el](./nano-colors.el)** This module provides a collection of colors palettes with function for easily accessing them.
-
-
-
-
+  > This module derives faces for several popular emacs modes from the
+    nano faces. You can either use them all by calling
+    `(nano-theme)`, or pick what you want by calling your selection
+    of `(nano-theme--` functions.
 
 
+- **[nano-help.el](./nano-help.el)**
 
+  > This module provides a function to display a small help message in
+    the echo area.
 
+- **[nano-splash.el](./nano-splash.el)**
+
+  > This module provides a splash screen when emacs is started.
+
+- **[nano-modeline.el](./nano-modeline.el)**
+
+  > This module defines a header line that is mode dependent and takes
+    care of hiding the modeline when necessary.
+
+- **[nano-layout.el](./nano-layout.el)**
+
+  > This module defines the overall layout of an emacs frame, defining
+    default font, fringes, margins, etc.
+
+- **[nano-defaults.el](./nano-defaults.el)**
+
+  > This modules provides a set of sane default settings for Emacs.
+
+- **[nano-session.el](./nano-session.el)**
+
+  > This modules configures Emacs such that a session is saved from
+    one run to the other.
+
+- **[nano-bindings.el](./nano-bindings.el)**
+
+  > This modules provides a reduced set of keybindings for a few
+    common commands.
+
+- **[nano-counsel.el](./nano-counsel.el)**
+
+  > This modules configures the [counsel
+    package](https://elpa.gnu.org/packages/counsel.html) that needs to
+    have been **installed** by user.
+
+- **[nano-colors.el](./nano-colors.el)**
+
+  > This module provides a collection of colors palettes
+    ([open colors](https://yeun.github.io/open-color/),
+     [material colors](https://material.io/),
+     [nord colors](https://www.nordtheme.com/))
+    with functions for easily accessing them.
+
+#### Experimental
+
+- **[nano-command.el](./nano-command.el)**
+
+  > This package provised an experimental command line prompt in the
+  > header line. It has not history nor completion but can be used for
+  > one line input such as org-capture.

@@ -20,8 +20,8 @@
       (append (list
 	       '(font . "Monaco:style=Light:size=13")
 	       ;; '(font . "Roboto Mono Emacs Regular:size=14")
-	       '(min-height . 1)  '(height     . 100)
-	       '(min-width  . 50) '(width      . 100)
+	       '(min-height . 1)  '(height     . 45)
+	       '(min-width  . 1) '(width      . 81)
                '(vertical-scroll-bars . nil)
                '(internal-border-width . 30)
                '(left-fringe    . 0)
@@ -45,6 +45,9 @@
                         (make-glyph-code ?… 'fallback))
 (set-display-table-slot standard-display-table 'wrap
                          (make-glyph-code ?↩ 'fallback))
+
+;; (set-fontset-font t nil "Fira Code" nil 'append)
+
 ;; Fix bug on OSX in term mode & zsh (spurious % after each command)
 (add-hook 'term-mode-hook
 	  (lambda () (setq buffer-display-table (make-display-table))))
@@ -56,7 +59,7 @@
 (tool-bar-mode 0)
 (tooltip-mode 0)
 (menu-bar-mode 0)
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
 (setq x-underline-at-descent-line t)
 
 ;; Vertical window divider
