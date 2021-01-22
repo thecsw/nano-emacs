@@ -79,6 +79,7 @@
   (set-face-attribute 'window-divider-last-pixel nil
                       :foreground nano-color-background)
   ;;                  :foreground (face-background 'nano-face-subtle)))
+  (set-face-foreground 'vertical-border nano-color-subtle)
 
   ;; Semantic
   (set-face 'shadow                                    'nano-face-faded)
@@ -125,15 +126,15 @@
                       :height 0.1
                       :foreground (face-background 'nano-face-default)
                       :background (face-background 'nano-face-default)
-                      :overline (face-background 'nano-face-subtle)
-                      :underline nil
+                      :underline (face-background 'nano-face-subtle)
+                      :overline nil
                       :box nil)
   (set-face-attribute 'mode-line-inactive nil
                       :height 0.1
                       :foreground (face-background 'nano-face-default)
                       :background (face-background 'nano-face-default)
-                      :overline (face-background 'nano-face-subtle)
-                      :underline nil
+                      :underline (face-background 'nano-face-subtle)
+                      :overline nil
                       :inherit nil
                       :box nil)
   ;;(when (display-graphic-p)
@@ -194,8 +195,8 @@
                          :foreground (face-foreground 'nano-face-faded)
                          :background (face-background 'nano-face-default)
                          :box `(:line-width 1
-                                            :color ,(face-foreground 'nano-face-faded)
-                                            :style nil))
+                                :color ,(face-foreground 'nano-face-faded)
+                                :style nil))
     (set-face-attribute 'custom-button-mouse nil
                          ;;                      :inherit 'custom-button
                          :foreground (face-foreground 'nano-face-faded)
@@ -325,11 +326,11 @@ function is a convenience wrapper used by `describe-package-1'."
     (let ((button-text (if (display-graphic-p)
                            text (concat "[" text "]")))
           (button-face (if (display-graphic-p)
-                           '(:box `(:line-width 1
-                                                :color ,nano-color-subtle
-                                                :style nil)
-                                  :foreground nano-color-faded
-                                  :background nano-color-subtle)
+                           `(:box `(:line-width 1
+                                    :color ,nano-color-subtle
+                                    :style nil)
+                                  :foreground ,nano-color-faded
+                                  :background ,nano-color-subtle)
                          'link)))
       (apply #'insert-text-button button-text
                'face button-face 'follow-link t properties))))
@@ -411,9 +412,9 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'org-agenda-clocking                     'nano-face-faded)
     (set-face 'org-agenda-column-dateline              'nano-face-faded)
     (set-face 'org-agenda-current-time                'nano-face-strong)
-    (set-face 'org-agenda-date                        'nano-face-salient)
-    (set-face 'org-agenda-date-today                  '(nano-face-strong
-                                                        nano-face-salient))
+    (set-face 'org-agenda-date                       'nano-face-salient)
+    (set-face 'org-agenda-date-today                '(nano-face-salient
+                                                       nano-face-strong))
     (set-face 'org-agenda-date-weekend                 'nano-face-faded)
     (set-face 'org-agenda-diary                        'nano-face-faded)
     (set-face 'org-agenda-dimmed-todo-face             'nano-face-faded)
@@ -682,6 +683,18 @@ function is a convenience wrapper used by `describe-package-1'."
     (set-face 'helm-grep-lineno                                  'nano-face-faded)
     (set-face 'helm-grep-finish                                'nano-face-default)))
 
+(defun nano-theme--company ()
+  "Derive company tooltip window from nano faces."
+  (with-eval-after-load 'company
+    (set-face 'company-tooltip-selection                   '(nano-face-strong nano-face-subtle))
+    (set-face 'company-tooltip                                               'nano-face-default)
+    (set-face 'company-scrollbar-fg                                            'nano-face-faded)
+    (set-face 'company-scrollbar-bg                                          'nano-face-default)
+    (set-face 'company-tooltip-common                                        'nano-face-default)
+    (set-face 'company-tooltip-common-selection            '(nano-face-strong nano-face-subtle))
+    (set-face 'company-tooltip-annotation                                    'nano-face-default)
+    (set-face 'company-tooltip-annotation-selection        '(nano-face-strong nano-face-subtle))))
+
 (defun nano-theme ()
   "Derive many, many faces from the core nano faces."
   (nano-theme--basics)
@@ -710,6 +723,7 @@ function is a convenience wrapper used by `describe-package-1'."
   (nano-theme--markdown)
   (nano-theme--ivy)
   (nano-theme--helm)
-  (nano-theme--hl-line))
+  (nano-theme--hl-line)
+  (nano-theme--company))
 
 (provide 'nano-theme)
