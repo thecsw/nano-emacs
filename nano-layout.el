@@ -20,8 +20,8 @@
       (append (list
 	       '(font . "Monaco:style=Light:size=13")
 	       ;; '(font . "Roboto Mono Emacs Regular:size=14")
-	       '(min-height . 1)  '(height     . 45)
-	       '(min-width  . 1) '(width      . 81)
+	       '(min-height . 1)  '(height     . 40)
+	       '(min-width  . 1) '(width      . 90)
                '(vertical-scroll-bars . nil)
                '(internal-border-width . 30)
                '(left-fringe    . 0)
